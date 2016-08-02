@@ -10,7 +10,7 @@ RUN \
     tar -xzf /tmp/sc_serv2_linux_x64-latest.tar.gz -C /usr/local/shoutcast && \
     rm -f /tmp/sc_serv2_linux_x64-latest.tar.gz
 
-ONBUILD COPY Resources/sc.conf /usr/local/shoutcast/sc.conf
+ONBUILD COPY container-files/sc.conf /usr/local/shoutcast/sc.conf
 
 EXPOSE 7777
 EXPOSE 7778
