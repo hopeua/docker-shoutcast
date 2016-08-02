@@ -15,7 +15,7 @@ Create __Dockerfile__ with following content
 
     FROM hope/shoutcast
     
-Write configuration file __Resources/sc.conf__
+Write configuration file __container-files/sc.conf__
 
 Build image
 
