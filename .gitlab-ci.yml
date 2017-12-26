@@ -1,0 +1,34 @@
+image: docker:stable
+services:
+  - docker:stable-dind
+
+variables:
+  IMAGE_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
+  PUBLIC_TAG: "hope/shoutcast"
+
+stages:
+  - build
+  - release
+
+BuildImage:
+  stage: build
+  script:  
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+    - docker build -t $IMAGE_TAG .
+    - docker run --rm --mount type=bind,source=$(pwd)/tests,target=/tests --entrypoint bash $IMAGE_TAG /tests/run.sh
+    - docker push $IMAGE_TAG
+    # Current version only
+    - docker tag $IMAGE_TAG $CI_REGISTRY_IMAGE:latest
+    - docker push $CI_REGISTRY_IMAGE:latest
+
+DockerHub:
+  stage: release
+  script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+    - docker pull $IMAGE_TAG
+    - docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASS
+    - docker tag $IMAGE_TAG $PUBLIC_TAG:$CI_COMMIT_REF_NAME
+    - docker push $PUBLIC_TAG:$CI_COMMIT_REF_NAME
+    # Current version only
+    - docker tag $IMAGE_TAG $PUBLIC_TAG:latest
+    - docker push $PUBLIC_TAG:latest
