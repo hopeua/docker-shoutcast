@@ -1,0 +1,17 @@
+name: Publish Docker Image
+
+on:
+  push:
+    branches:
+      - release/**
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - uses: deeepvision/github-action-docker-build@release/1.0
+        with:
+          name: shoutcast
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,9 +1,9 @@
-FROM hope/centos:7
+FROM centos:7
 
-LABEL maintainer="s.sadovyi@hope.ua"
+LABEL maintainer="s.sadovyi@s.sadovyi@deepvision.team"
 
 ENV \
-    SHOUTCAST_VERSION=2.5.5 \
+    SHOUTCAST_VERSION=2.6.0 \
     SHOUTCAST_HOME=/usr/local/shoutcast
 
 WORKDIR ${SHOUTCAST_HOME}
